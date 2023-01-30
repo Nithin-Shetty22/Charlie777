@@ -78,7 +78,7 @@ List<Pets> pets = [
   Pets(
       fav: true,
       color: Colors.blue,
-      name: 'Leo',
+      name: 'Andy',
       description: desc,
       location: 'Dumai, Riau',
       sex: 'Male',
@@ -90,7 +90,7 @@ List<Pets> pets = [
   Pets(
       fav: false,
       color: Colors.green,
-      name: 'Lily',
+      name: 'Bob',
       description: desc,
       location: 'Siak, Riau',
       sex: 'Female',
@@ -102,7 +102,7 @@ List<Pets> pets = [
   Pets(
       fav: true,
       color: Colors.blue,
-      name: 'Cleo',
+      name: 'Candy',
       image: 'assets/pets/pets7.png',
       description: desc,
       location: 'Pekanbaru, Riau',
@@ -115,7 +115,7 @@ List<Pets> pets = [
       fav: true,
       color: Colors.redAccent,
       image: 'assets/pets/pets8.png',
-      name: 'Milo',
+      name: 'Becky',
       description: desc,
       location: 'Kampar, Riau',
       sex: 'Female',
@@ -126,7 +126,7 @@ List<Pets> pets = [
   Pets(
       fav: true,
       color: Colors.blue,
-      name: 'Leo',
+      name: 'Audra',
       description: desc,
       location: 'Dumai, Riau',
       sex: 'Male',
@@ -138,7 +138,7 @@ List<Pets> pets = [
   Pets(
       fav: false,
       color: Colors.green,
-      name: 'Lily',
+      name: 'Colin',
       description: desc,
       location: 'Siak, Riau',
       sex: 'Female',

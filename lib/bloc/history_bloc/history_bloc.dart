@@ -14,7 +14,9 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
       try {
         if (event is GetHistoryData) {
           emit(HistoryLoading());
-          List<Historymodel> data = await historyNetworkService.getHistoryData();
+          await Future.delayed(const Duration(seconds: 3), () {});
+          List<Historymodel> data =
+              await historyNetworkService.getHistoryData();
           emit(HistoryLoded(data: data));
         }
       } catch (e) {

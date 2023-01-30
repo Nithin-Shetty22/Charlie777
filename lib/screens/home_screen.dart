@@ -16,7 +16,30 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  List<Pets> _petsList = [];
   @override
+  void initState() {
+    _petsList = pets;
+    super.initState();
+  }
+
+  void _runFilter(String enteredKeyword) {
+    print(enteredKeyword);
+    List<Pets> result = [];
+    if (enteredKeyword.isEmpty) {
+      result = pets;
+    } else {
+      result = pets
+          .where((user) =>
+              user.name.toLowerCase().contains(enteredKeyword.toLowerCase()))
+          .toList();
+    }
+    print(result[0].name);
+    setState(() {
+      _petsList = result;
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -39,6 +62,7 @@ class _HomeState extends State<Home> {
                   Flexible(
                     flex: 1,
                     child: TextField(
+                      onChanged: (value) => _runFilter(value),
                       cursorColor: Colors.grey,
                       decoration: InputDecoration(
                           fillColor: Colors.white,
@@ -168,17 +192,17 @@ class _HomeState extends State<Home> {
                     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                         maxCrossAxisExtent:
                             MediaQuery.of(context).size.width * 0.6),
-                    itemCount: pets.length,
+                    itemCount: _petsList.length,
                     itemBuilder: (context, index) => GestureDetector(
                           onTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        DetailPage(pets: pets[index])));
+                                        DetailPage(pets: _petsList[index])));
                           },
                           child: PetsItem(
-                            pets: pets[index],
+                            pets: _petsList[index],
                           ),
                         )),
               ),
@@ -232,10 +256,8 @@ class PetsItem extends StatelessWidget {
                       fit: BoxFit.cover,
                     )),
               ),
-              Positioned(
-                bottom: -10,
-                right: -80,
-                left: 20,
+              Hero(
+                tag: pets.name,
                 child: Image.asset(
                   pets.image,
                   height: MediaQuery.of(context).size.height * 0.25,

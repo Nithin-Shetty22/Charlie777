@@ -77,11 +77,14 @@ class _DetailPageState extends State<DetailPage> {
                             height: 300,
                           )),
                     ),
-                    InteractiveViewer(
-                      child: Center(
-                        child: Image.asset(
-                          widget.pets.image,
-                          height: MediaQuery.of(context).size.height * 0.45,
+                    Hero(
+                      tag: widget.pets.name,
+                      child: InteractiveViewer(
+                        child: Center(
+                          child: Image.asset(
+                            widget.pets.image,
+                            height: MediaQuery.of(context).size.height * 0.45,
+                          ),
                         ),
                       ),
                     ),
@@ -264,6 +267,7 @@ class _DetailPageState extends State<DetailPage> {
                           radius: 16,
                           backgroundColor: const Color(0xffE6E9F2),
                           action: () {
+                            _showMyDialog(widget.pets.name);
                             setState(() {
                               isSwiped = true;
                             });
@@ -305,6 +309,33 @@ class _DetailPageState extends State<DetailPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _showMyDialog(String name) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Thank you!!!'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('You’ve now adopted '),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Okay'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

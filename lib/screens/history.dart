@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shimmer/shimmer.dart';
 import '../bloc/history_bloc/history_bloc.dart';
 import '../models/history_model.dart';
 
@@ -62,18 +63,55 @@ class _HistoryState extends State<History> {
       ),
       body: BlocBuilder<HistoryBloc, HistoryState>(builder: (context, state) {
         if (state is HistoryLoading) {
-          return SizedBox();
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey.shade300,
+              highlightColor: Colors.grey.shade100,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Home_shimmer(
+                      width: double.infinity,
+                      height: 200,
+                    ),
+                    SizedBox(
+                      height: 32,
+                    ),
+                    Home_shimmer(
+                      width: double.infinity,
+                      height: 200,
+                    ),
+                    SizedBox(
+                      height: 32,
+                    ),
+                    Home_shimmer(
+                      width: double.infinity,
+                      height: 200,
+                    ),
+                    SizedBox(
+                      height: 32,
+                    ),
+                    Home_shimmer(
+                      width: double.infinity,
+                      height: 200,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
         } else if (state is HistoryLoded) {
-          return SizedBox();
-          // return Container(
-          //     height: MediaQuery.of(context).size.height,
-          //     width: MediaQuery.of(context).size.width,
-          //     child: ListView.builder(
-          //         itemCount: state.data.length,
-          //         scrollDirection: Axis.horizontal,
-          //         itemBuilder: (context, index) => PetsItem(
-          //               data: state.data[index],
-          //             )));
+          return Column(children: [
+            Expanded(
+                child: ListView.builder(
+                    itemCount: state.data.length,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (context, index) => PetsItem(
+                          data: state.data[index],
+                        )))
+          ]);
         }
         return Container();
       }),
@@ -174,6 +212,23 @@ class PetsItem extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class Home_shimmer extends StatelessWidget {
+  const Home_shimmer({Key? key, required this.height, required this.width})
+      : super(key: key);
+  final double? height, width;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      width: width,
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: const BorderRadius.all(Radius.circular(16))),
     );
   }
 }
