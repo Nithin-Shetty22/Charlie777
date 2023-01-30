@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:readmore/readmore.dart';
+import 'package:slider_button/slider_button.dart';
 
 import '../models/pets_model.dart';
 
@@ -14,9 +16,34 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
+  bool isSwiped = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: widget.pets.color.withOpacity(0.5),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white),
+                child: const Icon(Icons.arrow_back_ios_rounded,
+                    color: Colors.black))),
+        centerTitle: true,
+        elevation: 0,
+        title: Text(
+          widget.pets.name,
+          style: GoogleFonts.rubik(
+              color: Color(0xff091420),
+              fontWeight: FontWeight.w500,
+              fontStyle: FontStyle.normal,
+              fontSize: 20),
+        ),
+      ),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: Stack(
@@ -50,41 +77,16 @@ class _DetailPageState extends State<DetailPage> {
                             height: 300,
                           )),
                     ),
-                    Positioned(
-                        bottom: 0,
-                        left: MediaQuery.of(context).size.width * 0.2,
+                    InteractiveViewer(
+                      child: Center(
                         child: Image.asset(
                           widget.pets.image,
                           height: MediaQuery.of(context).size.height * 0.45,
-                        )),
+                        ),
+                      ),
+                    ),
                   ],
                 )),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white),
-                        child: const Icon(Icons.arrow_back_ios_rounded,
-                            color: Colors.black)),
-                  ),
-                  Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white),
-                      child: const Icon(Icons.more_horiz, color: Colors.black))
-                ],
-              ),
-            ),
             Positioned(
               bottom: 0,
               child: Container(
@@ -155,6 +157,9 @@ class _DetailPageState extends State<DetailPage> {
                                     ? Colors.red
                                     : Colors.black.withOpacity(0.6),
                               ),
+                            ),
+                            SizedBox(
+                              width: 5,
                             )
                           ],
                         ),
@@ -253,32 +258,50 @@ class _DetailPageState extends State<DetailPage> {
                               .copyWith(color: Colors.black.withOpacity(0.6)),
                         ),
                         const SizedBox(height: 20),
-                        Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: const [
-                                  BoxShadow(
-                                      offset: Offset(0, 3),
-                                      color: Color(0xFF2596be),
-                                      spreadRadius: 0,
-                                      blurRadius: 10)
-                                ],
-                                color: Color(0xFF2596be)),
-                            child: Center(
-                              child: Text(
-                                'Adopt Me',
-                                style: GoogleFonts.poppins().copyWith(
-                                    fontSize: 14, color: Colors.white),
-                              ),
-                            )),
+                        SliderButton(
+                          height: 58,
+                          width: double.infinity,
+                          radius: 16,
+                          backgroundColor: const Color(0xffE6E9F2),
+                          action: () {
+                            setState(() {
+                              isSwiped = true;
+                            });
+                          },
+                          buttonColor: widget.pets.color,
+                          buttonSize: 46,
+                          dismissThresholds: 0.8,
+                          vibrationFlag: true,
+                          shimmer: true,
+                          baseColor: Color.fromARGB(255, 116, 120, 136),
+                          highlightedColor: const Color(0xffA8AFC7),
+                          alignLabel: const Alignment(0, 0),
+                          label: Text("Adopt Me",
+                              style: GoogleFonts.nunito(
+                                  color: const Color(0xffA8AFC7),
+                                  fontWeight: FontWeight.w400,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 16),
+                              textAlign: TextAlign.left),
+                          icon: SvgPicture.asset(
+                            "assets/Paw_Print.svg",
+                            color: Color(0xffFFFFFF),
+                          ),
+                        ),
                         const SizedBox(height: 20),
                       ],
                     ),
                   ),
                 ),
               ),
-            )
+            ),
+            isSwiped
+                ? Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: Lottie.asset('assets/confetti/game_confetti.json'),
+                  )
+                : SizedBox(),
           ],
         ),
       ),

@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../models/pets_model.dart';
 import 'detail.dart';
+import 'history.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -52,7 +53,18 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  const Icon(Icons.history_outlined)
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HistoryParent()));
+                    },
+                    child: const Icon(
+                      Icons.history_outlined,
+                      size: 40,
+                    ),
+                  )
                 ],
               ),
             ),
